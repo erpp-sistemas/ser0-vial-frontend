@@ -1,10 +1,10 @@
 import React from 'react';
-import SearchPersonImage from '../../../public/search-person.svg';
-import SearchCarImage from '../../../public/search-car.svg';
-import TrackingPersonImage from '../../../public/tracking-person.svg';
-import RealTimeImage from '../../../public/real-time.svg';
-import ReportAttendanceImage from '../../../public/report-attendance.svg';
-import ReportInfractionsImage from '../../../public/report-infraction.svg'; // Nueva imagen (debes agregarla)
+import SearchPersonImage from '../../../public/search-person-black.svg';
+import SearchCarImage from '../../../public/search-car-black.svg';
+import TrackingPersonImage from '../../../public/tracking-person-black.svg';
+import RealTimeImage from '../../../public/real-time-black.svg';
+import ReportAttendanceImage from '../../../public/report-attendance-black.svg';
+import ReportInfractionsImage from '../../../public/report-infraction-black.svg'; // Nueva imagen (debes agregarla)
 
 function features() {
   return (
@@ -22,7 +22,7 @@ function features() {
           <div>
             <img
               src={ReportInfractionsImage}
-              class="w-full h-64 object-contain rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
+              class="w-full h-72 object-contain rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
             />
           </div>
           <div>
@@ -42,7 +42,7 @@ function features() {
           <div>
             <img
               src={SearchPersonImage}
-              class="w-full h-64 object-contain rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
+              class="w-full h-72 object-contain rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
             />
           </div>
 
@@ -50,7 +50,7 @@ function features() {
           <div>
             <img
               src={SearchCarImage}
-              class="w-full h-64 object-fill rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
+              class="w-full h-72 object-fill rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
             />
           </div>
           <div class="max-md:order-1">
@@ -70,7 +70,7 @@ function features() {
           <div>
             <img
               src={RealTimeImage}
-              class="w-full h-64 object-contain rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
+              class="w-full h-72 object-contain rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
             />
           </div>
 
@@ -78,7 +78,7 @@ function features() {
           <div>
             <img
               src={TrackingPersonImage}
-              class="w-full h-64 object-contain rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
+              class="w-full h-72 object-contain rounded-md shadow-[0_14px_40px_-11px_rgba(93,96,127,0.2)]"
             />
           </div>
           <div class="max-md:order-1">

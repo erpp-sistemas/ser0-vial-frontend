@@ -1,7 +1,9 @@
-import React from "react";
-import HeroImage from "../../../public/hero-ser0-vial.svg";
+import React, { useState } from "react";
+import HeroImage from "../../../public/hero-ser0-vial-black-2.svg";
+import HeroImageComponent from '../../components/home/heroImage'
 
 function Hero() {
+  const [color, setColor] = useState('#007bff')
   return (
     <div className="font-[sans-serif] max-w-7xl max-md:max-w-md mx-auto">
       <div className="grid md:grid-cols-2 items-center md:gap-10 gap-6">
@@ -26,7 +28,8 @@ function Hero() {
         </div>
 
         {/* Imagen Hero */}
-        <div className="md:h-[400px] p-2">
+        <div className="md:h-[400px] p-2">         
+          
           <img
             src={HeroImage}
             className="w-full h-full object-contain rounded-lg"

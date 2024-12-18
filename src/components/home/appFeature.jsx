@@ -1,5 +1,5 @@
 import React from "react";
-import AppMobileImage from "../../../public/app-mobile.svg";
+import AppMobileImage from "../../../public/app-mobile-black.svg";
 
 function appFeature() {
   return (
