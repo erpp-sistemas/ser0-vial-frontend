@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import HeroImage from "../../../public/hero-ser0-vial-black-2.svg";
-import HeroImageComponent from '../../components/home/heroImage'
 
-function Hero() {
-  const [color, setColor] = useState('#007bff')
+function Hero() {  
   return (
     <div className="font-[sans-serif] max-w-7xl max-md:max-w-md mx-auto">
       <div className="grid md:grid-cols-2 items-center md:gap-10 gap-6">
@@ -11,7 +9,7 @@ function Hero() {
         <div className="max-md:order-1 max-md:text-center">
           <h2 className="text-gray-800 md:text-5xl text-4xl font-extrabold mb-4 md:!leading-[55px]">
             {/* Frases separadas con degradados de 3 colores */}
-            <span className="bg-gradient-to-r from-blue-700 via-blue-400 to-blue-800 text-transparent bg-clip-text block">
+            <span className="bg-primary text-transparent bg-clip-text block">
               Gestión Integral de Infracciones Viales:
             </span>
             <span className="bg-gradient-to-r from-teal-700 via-teal-400 to-teal-800 text-transparent bg-clip-text block">

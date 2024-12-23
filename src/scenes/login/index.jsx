@@ -28,10 +28,10 @@ function index({ setLogin }) {
 
     if (!username || !password) {
       console.log("Debe ingresar un usuario o contraseña.")
-      // setAlertTitle("Atencion");
-      // setAlertMessage("Debe ingresar un usuario o contraseña.");
-      // setAlertType("warning");
-      // setAlertOpen(true);
+      setAlertTitle("Atencion");
+      setAlertMessage("Debe ingresar un usuario o contraseña.");
+      setAlertType("warning");
+      setAlertOpen(true);
       return;
     }
 
@@ -47,18 +47,19 @@ function index({ setLogin }) {
         sessionStorage.setItem("user_session", JSON.stringify(user));
         setShowModal(false);
         setLogin(false);
-        // setAlertTitle("Error");
-        // setAlertMessage(error);
-        // setAlertType("error");
-        // setAlertOpen(true);
+        console.log(user)
+        setAlertTitle("Error");
+        setAlertMessage(error);
+        setAlertType("error");
+        setAlertOpen(true);
         navigate("/");
       })
       .catch((error) => {
         console.log(error);
-        // setAlertTitle("Error");
-        // setAlertMessage(error);
-        // setAlertType("error");
-        // setAlertOpen(true);
+        setAlertTitle("Error");
+        setAlertMessage(error);
+        setAlertType("error");
+        setAlertOpen(true);
         setShowModal(false);
       });
   };
@@ -83,7 +84,8 @@ function index({ setLogin }) {
       active: data_user.active,
       access_web: data_user.access_app_web,
       access_movil: data_user.access_movil,
-      role_id: data_user.role_id,      
+      role_id: data_user.role_id,   
+      theme_color: data_user.theme_color   
       //token: data_user.token,
     };
     dispatch(setUser(obj));

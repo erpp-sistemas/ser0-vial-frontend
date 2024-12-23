@@ -16,6 +16,7 @@ const initialState = {
   access_web: 0,
   access_movil: 0,
   role_id: 0,
+  theme_color: "#2196F3"
 };
 
 export const userSlice = createSlice({
@@ -39,6 +40,7 @@ export const userSlice = createSlice({
         access_web,
         access_movil,
         role_id,
+        theme_color,
       } = action.payload;
       state.user_id = user_id,
       state.username = username,
@@ -54,10 +56,15 @@ export const userSlice = createSlice({
       state.active = active,
       state.access_web = access_web,
       state.access_movil = access_movil,
-      state.role_id = role_id;
+      state.role_id = role_id,
+      state.theme_color = theme_color;
+    },
+    updateField: (state, action) => {
+      const { field, value } = action.payload;
+      state[field] = value; // Actualiza dinámicamente el campo
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, updateField } = userSlice.actions;
 export default userSlice.reducer;

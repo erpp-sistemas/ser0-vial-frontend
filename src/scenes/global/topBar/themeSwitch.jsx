@@ -13,13 +13,13 @@ const ThemeSwitch = () => {
   return (
     <div
       onClick={handleToggle}
-      className={`border border-blue-400 relative w-[40px] h-[22px] flex items-center cursor-pointer rounded-full transition-colors ${
-        isDarkMode ? "bg-gray-800" : "bg-blue-400"
+      className={`border border-primary relative w-[40px] h-[22px] flex items-center cursor-pointer rounded-full transition-colors ${
+        isDarkMode ? "bg-gray-800" : "bg-primary"
       }`}
     >
       {/* Icono del Sol */}
       <Brightness7
-        className={`absolute text-blue-400 transition-opacity ${
+        className={`absolute text-primary transition-opacity ${
           isDarkMode ? "opacity-100" : "opacity-0"
         }`}
         style={{

@@ -26,7 +26,7 @@ function features() {
             />
           </div>
           <div>
-            <h3 class="text-blue-500 text-2xl font-bold mb-4">Reporte de Infracciones</h3>
+            <h3 class="text-primary text-2xl font-bold mb-4">Reporte de Infracciones</h3>
             <p class="text-gray-600 text-base">
               Genera reportes detallados de infracciones levantadas, con información clara y estructurada para una mejor toma de decisiones.
             </p>
@@ -34,7 +34,7 @@ function features() {
 
           {/* Elemento: Búsqueda de Usuarios */}
           <div class="max-md:order-1">
-            <h3 class="text-blue-500 text-2xl font-bold mb-4">Búsqueda de Usuarios</h3>
+            <h3 class="text-primary text-2xl font-bold mb-4">Búsqueda de Usuarios</h3>
             <p class="text-gray-600 text-base">
               Consulta usuarios en la plataforma, accede a sus historiales de infracciones y gestiona su información de manera centralizada.
             </p>
@@ -54,7 +54,7 @@ function features() {
             />
           </div>
           <div class="max-md:order-1">
-            <h3 class="text-blue-500 text-2xl font-bold mb-4">Búsqueda de Vehículos</h3>
+            <h3 class="text-primary text-2xl font-bold mb-4">Búsqueda de Vehículos</h3>
             <p class="text-gray-600 text-base">
               Localiza vehículos rápidamente y visualiza su historial completo de infracciones para un seguimiento más efectivo.
             </p>
@@ -62,7 +62,7 @@ function features() {
 
           {/* Elemento: Mapa en Tiempo Real */}
           <div class="max-md:order-1">
-            <h3 class="text-blue-500 text-2xl font-bold mb-4">Mapa en Tiempo Real</h3>
+            <h3 class="text-primary text-2xl font-bold mb-4">Mapa en Tiempo Real</h3>
             <p class="text-gray-600 text-base">
               Visualiza las infracciones levantadas en tiempo real, ubicadas geográficamente en un mapa, para un monitoreo dinámico.
             </p>
@@ -82,7 +82,7 @@ function features() {
             />
           </div>
           <div class="max-md:order-1">
-            <h3 class="text-blue-500 text-2xl font-bold mb-4">Tracking de Personal</h3>
+            <h3 class="text-primary text-2xl font-bold mb-4">Tracking de Personal</h3>
             <p class="text-gray-600 text-base">
               Supervisa la ubicación del personal en campo en tiempo real para mejorar la coordinación y la eficiencia operativa.
             </p>
@@ -90,7 +90,7 @@ function features() {
 
           {/* Elemento: Reporte de Asistencia */}
           <div class="max-md:order-1">
-            <h3 class="text-blue-500 text-2xl font-bold mb-4">Reporte de Asistencia</h3>
+            <h3 class="text-primary text-2xl font-bold mb-4">Reporte de Asistencia</h3>
             <p class="text-gray-600 text-base">
               Accede a reportes detallados de asistencia del personal en campo para un control más preciso y confiable.
             </p>

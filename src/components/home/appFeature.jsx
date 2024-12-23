@@ -3,10 +3,10 @@ import AppMobileImage from "../../../public/app-mobile-black.svg";
 
 function appFeature() {
   return (
-    <div class="grid md:grid-cols-3 rounded-lg gap-6 min-h-[164px] py-8 p-16 bg-gradient-to-t from-blue-500 to-gray-sans overflow-hidden">
+    <div class="grid md:grid-cols-3 rounded-lg gap-6 min-h-[164px] py-8 p-16 bg-gradient-to-t from-primary to-gray-sans overflow-hidden">
       <div class="md:col-span-2">
         <h3 class="font-extrabold text-5xl leading-tight">
-          <span class="bg-clip-text text-transparent bg-gradient-to-l from-blue-500 via-blue-500 to-blue-500">
+          <span class="bg-clip-text text-transparent bg-primary">
             ser0 Vial
           </span>
         </h3>
@@ -18,7 +18,7 @@ function appFeature() {
 
         <button
           type="button"
-          class="py-3 px-6 text-sm font-bold bg-white text-blue-500 hover:bg-slate-100 rounded-md mt-8"
+          class="py-3 px-6 text-sm font-bold bg-white text-primary hover:bg-slate-100 rounded-md mt-8"
         >
           Solicita la instalación de la app
         </button>

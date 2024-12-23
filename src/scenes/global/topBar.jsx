@@ -3,6 +3,7 @@ import ThemeSwitch from "../global/topBar/themeSwitch";
 import NotificationPopover from "../global/topBar/notificationPopover";
 import SettingsPopover from "../global/topBar/settingsPopover";
 import ProfilePopover from "../global/topBar/profilePopover";
+import ThemeColorPickerPopover from "../global/topBar/themeColorPickerPopover";
 
 function Topbar({ isCollapsed }) {
   const [activePopover, setActivePopover] = useState(null);
@@ -48,6 +49,12 @@ function Topbar({ isCollapsed }) {
           <ProfilePopover
             isOpen={activePopover === "profile"}
             onToggle={() => handlePopoverToggle("profile")}
+          />
+
+          {/* Popover de perfil */}
+          <ThemeColorPickerPopover
+            isOpen={activePopover === "theme"}
+            onToggle={() => handlePopoverToggle("theme")}
           />
 
           {/* Otros iconos */}

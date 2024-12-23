@@ -42,7 +42,7 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
         </a>
 
         <div
-          className="absolute -right-6 top-2 h-6 w-6 p-[6px] cursor-pointer bg-[#007bff] flex items-center justify-center rounded-full"
+          className="absolute -right-6 top-2 h-6 w-6 p-[6px] cursor-pointer bg-primary flex items-center justify-center rounded-full"
           onClick={toggleSidebar}
         >
           {isCollapsed ? (
