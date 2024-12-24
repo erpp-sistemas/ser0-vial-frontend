@@ -28,7 +28,7 @@ function App() {
         </Routes>
       ) : (
         // Layout principal cuando el usuario ha iniciado sesión
-        <div className="flex dark:bg-dark-background transition-all duration-300 ease-in-out bg-gray-100">
+        <div className="flex dark:bg-dark-background transition-all duration-300 ease-in-out bg-neutral-50">
           {/* Sidebar */}
           <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
 

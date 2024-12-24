@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import HeroImage from "../../../public/hero-ser0-vial-black-2.svg";
+// import HeroImage from "../home/heroImage";
 
 function Hero() {  
   return (
@@ -26,7 +27,9 @@ function Hero() {
         </div>
 
         {/* Imagen Hero */}
-        <div className="md:h-[400px] p-2">         
+        <div className="md:h-[400px] h-[200px] p-2 rounded">
+          {/* Verifica que HeroImage renderice correctamente */}
+          {/* <HeroImage className="max-w-full max-h-full object-contain" />          */}
           
           <img
             src={HeroImage}

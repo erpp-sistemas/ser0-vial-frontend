@@ -37,7 +37,7 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
           <img
             src={isCollapsed ? LogoImageSer0VialImage : LogoSer0VialImage}
             alt="logo"
-            className={`${isCollapsed ? "w-7 h-7" : "w-40 h-10"}`}
+            className={`${isCollapsed ? "w-7 h-7" : "w-40"}`}
           />
         </a>
 

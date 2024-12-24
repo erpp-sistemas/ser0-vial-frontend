@@ -16,7 +16,7 @@ function Topbar({ isCollapsed }) {
 
   return (
     <header
-      className={`dark:bg-dark-background text-light-text dark:text-dark-text bg-white shadow-[0_2px_10px_rgba(0,0,0,0.15)] transition-all duration-300 ease-out fixed left-0 overflow-auto min-h-[60px] font-sans z-[1201] 
+      className={`dark:bg-dark-background text-light-text dark:text-dark-text bg-neutral-50 transition-all duration-300 ease-out fixed left-0 overflow-auto min-h-[60px] font-sans z-[1201] 
       ${
         !isCollapsed
           ? "ml-[250px] w-[calc(100%-250px)]"
