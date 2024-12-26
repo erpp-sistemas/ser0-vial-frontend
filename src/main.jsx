@@ -8,12 +8,13 @@ import { store } from "./redux/store";
 import { BrowserRouter } from 'react-router-dom'
 
 createRoot(document.getElementById("root")).render(
-  <ThemeProvider>
-    <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-    ,
-  </ThemeProvider>
+  <div style={{ margin: 0, padding: 0, minHeight: "100vh" }}>
+    <ThemeProvider>
+      <Provider store={store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </ThemeProvider>
+  </div>
 );

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import HeroImage from "../../../public/hero-ser0-vial-black-2.svg";
-// import HeroImage from "../home/heroImage";
+import HeroImage from "../home/heroImageV2";
 
-function Hero() {  
+function Hero() {
   return (
     <div className="font-[sans-serif] max-w-7xl max-md:max-w-md mx-auto">
       <div className="grid md:grid-cols-2 items-center md:gap-10 gap-6">
@@ -27,15 +26,8 @@ function Hero() {
         </div>
 
         {/* Imagen Hero */}
-        <div className="md:h-[400px] h-[200px] p-2 rounded">
-          {/* Verifica que HeroImage renderice correctamente */}
-          {/* <HeroImage className="max-w-full max-h-full object-contain" />          */}
-          
-          <img
-            src={HeroImage}
-            className="w-full h-full object-contain rounded-lg"
-            alt="Gestión Integral de Infracciones"
-          />
+        <div className="md:h-[400px] h-[200px] p-2 rounded text-primary">
+          <HeroImage className="max-w-full max-h-full object-contain" />
         </div>
       </div>
     </div>
