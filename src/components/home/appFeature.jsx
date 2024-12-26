@@ -11,7 +11,7 @@ function appFeature() {
             ser0 Vial
           </span>
         </h3>
-        <h6 class="text-lg text-gray-800 mt-4">
+        <h6 class="dark:text-gray-50 text-lg text-gray-800 mt-4">
           Gestiona, reporta y consulta infracciones en tiempo real desde tu
           dispositivo móvil. Optimiza el control y agiliza tus operaciones,
           estés donde estés.

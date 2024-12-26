@@ -16,7 +16,7 @@ function Hero() {
               De Campo a Plataforma
             </span>
           </h2>
-          <p className="mt-5 text-base text-gray-500 leading-relaxed">
+          <p className="dark:text-gray-50 mt-5 text-base text-gray-500 leading-relaxed">
             ser0 Vial integra la captura de infracciones en campo mediante
             nuestra app móvil con el análisis y supervisión en tiempo real desde
             la plataforma web, optimizando informes, monitoreo de personal y
