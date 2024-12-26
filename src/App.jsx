@@ -1,15 +1,63 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Login from "./scenes/login";
 import Topbar from "./scenes/global/topBar";
 import Sidebar from "./scenes/global/sideBar";
 import Home from "./scenes/home";
 import './App.css';
+import Cookies from 'js-cookie'
+import { setUser } from "./redux/userSlice";
 
 function App() {
-  const [login, setLogin] = useState(null); // Estado para manejar el login
-  const [isCollapsed, setIsCollapsed] = useState(true); // Estado para manejar el colapso del sidebar
+  const [login, setLogin] = useState(null);
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [identification, setIdentification] = useState(false)
+
+  let location = useLocation()
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const cookies = Cookies.get()
+    if (location.pathname.includes('identification')) {
+      setLogin(null)
+      setIdentification(true)
+      return
+    }
+
+    setIdentification(false)
+
+    const user = sessionStorage.getItem('user_session')
+    if (user) {
+      setLogin(true)
+      generateDataUser(JSON.parse(user))
+    } else {
+      setLogin(null)
+    }
+  }, [])
+
+  const generateDataUser = (data_user) => {    
+    const obj = {
+      user_id: data_user.user_id,
+      username: data_user.username,
+      password: data_user.password,
+      first_name: data_user.first_name,
+      middle_name: data_user.middle_name,
+      paternal_surname: data_user.paternal_surname,
+      maternal_surname: data_user.maternal_surname,
+      birthdate: data_user.birthdate,
+      photo_url: data_user.photo_url,
+      entry_date: data_user.entry_date,
+      low_date: data_user.low_date,
+      active: data_user.active,
+      access_web: data_user.access_app_web,
+      access_movil: data_user.access_movil,
+      role_id: data_user.role_id,   
+      theme_color: data_user.theme_color   
+      //token: data_user.token,
+    };
+    dispatch(setUser(obj))
+  }
 
   const themeColor = useSelector((state) => state.user.theme_color || "#2196F3");
 
