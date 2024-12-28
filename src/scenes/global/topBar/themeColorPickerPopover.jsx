@@ -32,7 +32,14 @@ const ThemeColorPickerPopover = ({ isOpen, onToggle }) => {
     .then((res) => {      
       if(res.data.message){
         console.log(res.data.message) 
-        dispatch(updateField({ field: "theme_color", value: selectedColor }));        
+        dispatch(updateField({ field: "theme_color", value: selectedColor }));   
+        
+        const userSession = sessionStorage.getItem("user_session");
+        if (userSession) {
+          const user = JSON.parse(userSession);
+          user.theme_color = selectedColor; // Actualiza el campo theme_color
+          sessionStorage.setItem("user_session", JSON.stringify(user)); // Guarda de nuevo
+        }
       }     
       
     })
