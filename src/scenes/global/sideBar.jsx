@@ -17,6 +17,8 @@ import {
 } from "@mui/icons-material";
 import LogoSer0VialImage from "../../../public/logo-ser0-vial.png";
 import LogoImageSer0VialImage from "../../../public/logo-image-ser0-vial.png";
+import LogoSer0VialDarkImage from "../../../public/logo-ser0-vial-white.png";
+import LogoImageSer0VialDarkImage from "../../../public/logo-image-ser0-vial-white.png";
 import {getMenusByUserId} from '../../services/menu.service'
 import { useSelector } from 'react-redux'
 
@@ -24,6 +26,7 @@ import { useSelector } from 'react-redux'
 function Sidebar({ isCollapsed, setIsCollapsed }) {
   const sidebarRef = useRef(null);
   const [menus, setMenus] = useState([])
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const user = useSelector((state) => state.user)
 
@@ -48,6 +51,21 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
     };
     loadMenus();
   }, [user.user_id]);
+
+  useEffect(() => {
+    const handleThemeChange = () => {
+      setIsDarkMode(document.documentElement.classList.contains("dark"));
+    };
+
+    // Detecta si la clase `dark` cambia
+    const observer = new MutationObserver(() => handleThemeChange());
+    observer.observe(document.documentElement, { attributes: true });
+
+    // Establecer estado inicial
+    handleThemeChange();
+
+    return () => observer.disconnect();
+  }, []);
 
   // Función para alternar el estado del sidebar
   const toggleSidebar = () => {
@@ -97,7 +115,15 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
       <div className="relative flex justify-center items-center">
         <a href="javascript:void(0)">
           <img
-            src={isCollapsed ? LogoImageSer0VialImage : LogoSer0VialImage}
+             src={
+              isCollapsed
+                ? isDarkMode
+                  ? LogoImageSer0VialDarkImage
+                  : LogoImageSer0VialImage
+                : isDarkMode
+                ? LogoSer0VialDarkImage
+                : LogoSer0VialImage
+            }
             alt="logo"
             className={`${isCollapsed ? "w-7 h-7" : "w-40"}`}
           />
