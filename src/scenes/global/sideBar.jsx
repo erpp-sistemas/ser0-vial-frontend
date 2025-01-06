@@ -106,7 +106,7 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
 
   return (
     <nav
-      className={`dark:bg-dark-background text-light-text dark:text-dark-text bg-white shadow-[0_2px_10px_rgba(0,0,0,0.15)] h-screen fixed top-0 left-0 py-6 px-4 font-[sans-serif] transition-all ${
+      className={`dark:bg-dark-background text-light-text dark:text-dark-text bg-white shadow-[0_2px_10px_rgba(107,114,128,1)] h-screen fixed top-0 left-0 py-6 px-4 font-[sans-serif] transition-all ${
         isCollapsed ? "w-[80px]" : "w-[250px]"
       }`}
       style={{ zIndex: 10000 }}

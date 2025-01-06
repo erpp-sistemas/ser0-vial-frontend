@@ -5,6 +5,7 @@ import Login from "./scenes/login";
 import Topbar from "./scenes/global/topBar";
 import Sidebar from "./scenes/global/sideBar";
 import Home from "./scenes/home";
+import Report from "./scenes/report";
 import './App.css';
 import Cookies from 'js-cookie'
 import { setUser } from "./redux/userSlice";
@@ -93,6 +94,7 @@ function App() {
             <div className="pt-[60px] pl-8 pr-8"> {/* Espaciado del contenido */}
               <Routes>
                 <Route path="/" key="home" element={<Home />} />
+                <Route path="/report" key="report" element={<Report />} />
               </Routes>
             </div>
           </div>

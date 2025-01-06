@@ -8,9 +8,22 @@ html, body {
   min-height: 1vh;
   margin: 0;
   overflow-x: hidden;
-  background-color: #f3f4f6;
+  
 }
 
 :root {
   --primary-color: #2196F3; /* Color por defecto (azul) */
+  --background-color: #fafafa; /* Fondo claro */
+  --text-color: #000000; /* Texto oscuro */
+}
+
+.dark {
+  --primary-color: #BB86FC; /* Un color diferente para el modo oscuro */
+  --background-color: #1F2937; /* Fondo oscuro */
+  --text-color: #ffffff; /* Texto claro */
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
