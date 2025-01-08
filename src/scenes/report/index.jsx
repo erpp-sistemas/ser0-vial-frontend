@@ -25,13 +25,6 @@ export default function index() {
     setFormId(form ? form.id : "");    
   };
 
-  // const fetchDataForm = () => {
-  //   setShowModalLoading(true);
-  //   setTimeout(() => {
-  //     setShowModalLoading(false);
-  //   }, 2000);
-  // };
-
   const fetchDataForm = () => {
     setLoadingForm(true);
 

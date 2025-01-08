@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Download, Error } from "@mui/icons-material";
+import * as ExcelJS from "exceljs";
+import Loading from "../../components/modals/loading";
 
 const DataGridReport = ({
   data,
   pageSizeOptions = [5, 10, 20],
   defaultPageSize = 5,
 }) => {
-  const [searchTerm, setSearchTerm] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [noResults, setNoResults] = useState(false);
+  const [showModalLoading, setShowModalLoading] = useState(false);  
 
   if (!data || data.length === 0) {
     return <p>No hay datos para mostrar</p>;
@@ -23,15 +26,46 @@ const DataGridReport = ({
     minWidth: Math.max(100, key.length * 12), // Evitar que las columnas sean demasiado pequeñas
   }));
 
-  // Agregar el campo `id` requerido por el DataGrid
-  const rows = data.map((item, index) => ({
-    id: index + 1,
-    ...item,
-  }));
+  const handleDownload = async () => {
+    try {
+      setShowModalLoading(true);
 
-  const handleDownload = () => {
-    // Lógica para descargar los datos en formato Excel
-    console.log("Descargando Excel...");
+      const workbook = new ExcelJS.Workbook();
+      const worksheet = workbook.addWorksheet("Registros Encontrados");
+
+      const headers = Object.keys(data[0]);
+      worksheet.addRow(headers);
+
+      if (filteredUsers.length > 0) {
+        filteredUsers.forEach((row) => {
+          const values = headers.map((header) => row[header]);
+          worksheet.addRow(values);
+        });
+      } else {
+        data.forEach((row) => {
+          const values = headers.map((header) => row[header]);
+          worksheet.addRow(values);
+        });
+      }
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "reportes" + ".xlsx";
+      a.click();
+      window.URL.revokeObjectURL(url);
+      setShowModalLoading(false);
+    } catch (error) {
+      setShowModalLoading(false);
+      console.error("Error:", error);
+      return null;
+    } finally {
+      setShowModalLoading(false); // Asegúrate de que siempre se oculte el loading
+    }
   };
 
   const handleChange = (event) => {
@@ -63,6 +97,7 @@ const DataGridReport = ({
   return (
     <div className="font-[sans-serif]">
       {/* Contenedor para el input de búsqueda y el botón */}
+      <Loading open={showModalLoading} />
       <div className="grid grid-cols-12 gap-4 mb-4">
         <div className="col-span-4">
           <div>
@@ -86,6 +121,7 @@ const DataGridReport = ({
             <button
               type="button"
               className="w-full px-2 py-1 flex items-center justify-center rounded-lg text-gray-900 text-xs tracking-wider font-medium border-none outline-none bg-primary hover:bg-gray-600 active:primary"
+              onClick={handleDownload}
             >
               <span className="border-r border-gray-900 font-semibold pr-2">
                 Descargar
@@ -101,7 +137,7 @@ const DataGridReport = ({
       {/* DataGrid */}
 
       <DataGrid
-        rows={filteredUsers.length > 0 ? filteredUsers : data}
+        rows={filteredUsers.length > 0 || searchTerm ? filteredUsers : data}
         columns={columns}
         getRowId={(row) => row.custom_id}
         pageSize={defaultPageSize}
