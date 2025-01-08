@@ -16,7 +16,8 @@ const initialState = {
   access_web: 0,
   access_movil: 0,
   role_id: 0,
-  theme_color: "#2196F3"
+  theme_color: "#2196F3",
+  place_user: [],
 };
 
 export const userSlice = createSlice({
@@ -41,6 +42,7 @@ export const userSlice = createSlice({
         access_movil,
         role_id,
         theme_color,
+        place_user,
       } = action.payload;
       state.user_id = user_id,
       state.username = username,
@@ -58,6 +60,7 @@ export const userSlice = createSlice({
       state.access_movil = access_movil,
       state.role_id = role_id,
       state.theme_color = theme_color;
+      state.place_user = place_user;
     },
     updateField: (state, action) => {
       const { field, value } = action.payload;

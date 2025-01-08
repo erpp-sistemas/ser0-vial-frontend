@@ -6,6 +6,7 @@ import TailwindAlert from "../../components/tailwindAlert.jsx";
 import { getFormAll } from "../../services/form.service";
 import { getByDates } from "../../services/register.service.js";
 import DataGridReport from "../../components/report/dataGridReport.jsx";
+import DataGridExample from "../../components/report/dataGridExample.jsx";
 
 export default function index() {
   const [fechaInicio, setFechaInicio] = useState("");
@@ -21,18 +22,17 @@ export default function index() {
   const [resultData, setResultData] = useState([]);
 
   const handleFormSelect = (form) => {
-    setFormId(form ? form.id : "");
-    console.log("form seleccionado:", form ? form.id : "");
+    setFormId(form ? form.id : "");    
   };
+
+  // const fetchDataForm = () => {
+  //   setShowModalLoading(true);
+  //   setTimeout(() => {
+  //     setShowModalLoading(false);
+  //   }, 2000);
+  // };
 
   const fetchDataForm = () => {
-    setLoadingForm(true);
-    setTimeout(() => {
-      setLoadingForm(false);
-    }, 2000);
-  };
-
-  const fetchDataForm2 = () => {
     setLoadingForm(true);
 
     getFormAll()
@@ -61,21 +61,14 @@ export default function index() {
       return;
     }
 
-    setShowModalLoading(true);
+    setShowModalLoading(true);    
 
     getByDates(formId, fechaInicio, fechaFin)
       .then((register) => {
-        console.log(JSON.stringify(register));
-        setAlertTitle("Felicidades");
-        setAlertMessage("Los datos son estos");
-        setAlertType("success");
-        setAlertOpen(true);
-
         const result = homogenizeDataJson(register);
         setResultData(result);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((error) => {        
         setAlertTitle("Error");
         setAlertMessage(error);
         setAlertType("error");
@@ -84,16 +77,10 @@ export default function index() {
       .finally(() => {
         setShowModalLoading(false); // Aseguramos que el indicador de carga desaparezca al finalizar.
       });
-
-    setShowModalLoading(false);
-
-    console.log("Formulario seleccionado:", formId);
-    console.log("Fecha Inicio:", fechaInicio);
-    console.log("Fecha Fin:", fechaFin);
   };
 
   useEffect(() => {
-    fetchDataForm2();
+    fetchDataForm();
   }, []);
 
   const homogenizeDataJson = (data) => {
@@ -194,8 +181,7 @@ export default function index() {
         <h2 className="text-xl font-semibold text-gray-600 dark:text-white mb-2">
           Datos encontrados
         </h2>
-      </div>
-
+      </div>      
       <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-6">
         <DataGridReport data={resultData} />
       </div>
