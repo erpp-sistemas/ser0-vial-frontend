@@ -51,10 +51,11 @@ function App() {
       entry_date: data_user.entry_date,
       low_date: data_user.low_date,
       active: data_user.active,
-      access_web: data_user.access_app_web,
+      access_web: data_user.access_web,
       access_movil: data_user.access_movil,
       role_id: data_user.role_id,   
-      theme_color: data_user.theme_color   
+      theme_color: data_user.theme_color,
+      place_user: data_user.place_user   
       //token: data_user.token,
     };
     dispatch(setUser(obj))

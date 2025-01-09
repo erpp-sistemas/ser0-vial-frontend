@@ -1,9 +1,7 @@
 import React from "react";
 import { Modal, Fade } from "@mui/material";
-import Lottie from "lottie-react";
-import loading from "../../../public/loading_4.json";
 
-const LoadingModal = ({ open }) => {
+const LoadingModal = ({ open, message }) => {
   return (
     <Modal
       open={open}
@@ -13,19 +11,23 @@ const LoadingModal = ({ open }) => {
     >
       <Fade in={open} timeout={500}>
         <div
-          style={{
+           style={{
             display: "flex",
+            flexDirection: "column", // Asegura el apilamiento en columna
             justifyContent: "center",
             alignItems: "center",
-            height: "100%",
+            minHeight: "100vh",
+            padding: "1rem",
           }}
           className="text-primary"
+          aria-busy="true"
+          aria-live="assertive"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="8em"
             height="8em"
-            viewBox="0 0 24 24"           
+            viewBox="0 0 24 24"
           >
             <rect width="7.33" height="7.33" x="1" y="1" fill="currentColor">
               <animate
@@ -300,6 +302,19 @@ const LoadingModal = ({ open }) => {
               />
             </rect>
           </svg>
+          {message && (
+            <span
+              id="loading-message"
+              className="text-primary font-semibold"
+              style={{
+                marginTop: "1rem", // Espacio entre el SVG y el mensaje
+                fontSize: "1.2rem", // Ajusta el tamaño de fuente si es necesario
+                textAlign: "center", // Centra el texto
+              }}
+            >
+              {message}
+            </span>
+          )}
         </div>
       </Fade>
     </Modal>

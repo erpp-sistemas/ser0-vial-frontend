@@ -104,12 +104,12 @@ const DataGridReport = ({
             <input
               type="text"
               placeholder="Ingresa tu busqueda..."
-              class="px-4 py-1.5 text-sm text-gray-900 rounded-md bg-white border border-gray-400 w-full outline-blue-500"
+              className="px-4 py-1.5 text-sm text-gray-900 rounded-md bg-white border border-gray-400 w-full outline-blue-500"
               value={searchTerm}
               onChange={handleChange}
             />
             {noResults && (
-              <p class="text-xs text-red-500 flex items-center mt-2">
+              <p className="text-xs text-red-500 flex items-center mt-2">
                 <Error />
                 No se encontraron resultados
               </p>

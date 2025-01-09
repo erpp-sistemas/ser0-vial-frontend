@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Spinner from "../spinner";
 
 function SelectTitle({
@@ -10,6 +10,17 @@ function SelectTitle({
 }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+
+  // Efecto para seleccionar el item con el id más pequeño solo al cargar el componente
+  useEffect(() => {
+    if (data.length > 0 && selectedItem === null) {
+      const defaultItem = data.reduce((prev, curr) => (prev.id < curr.id ? prev : curr));
+      setSelectedItem(defaultItem); // Establecer el ítem con el id más pequeño
+      if (onSelect) {
+        onSelect(defaultItem); // Notificar al padre sobre la selección
+      }
+    }
+  }, [data, selectedItem, onSelect]);
 
   const handleSelect = (item) => {
     setSelectedItem(item);
@@ -46,12 +57,6 @@ function SelectTitle({
         {dropdownOpen && !isLoading && (
           <div className="absolute w-full mt-2 bg-white border border-gray-300 rounded shadow-lg z-10">
             <div className="py-2">
-              <div
-                className="flex items-center px-4 py-2 text-sm cursor-pointer hover:bg-gray-100"
-                onClick={() => handleSelect(null)}
-              >
-                <span className="text-gray-500">Todos</span>
-              </div>
               {data.map((item) => (
                 <div
                   key={item.id}

@@ -6,26 +6,59 @@ import TailwindAlert from "../../components/tailwindAlert.jsx";
 import { getFormAll } from "../../services/form.service";
 import { getByDates } from "../../services/register.service.js";
 import DataGridReport from "../../components/report/dataGridReport.jsx";
-import DataGridExample from "../../components/report/dataGridExample.jsx";
+import { useSelector } from "react-redux";
 
 export default function index() {
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
   const [formId, setFormId] = useState("");
+  const [placeId, setPlaceId] = useState("");
   const [loadingForm, setLoadingForm] = useState(false);
+  const [loadingPlace, setLoadingPlace] = useState(false);
   const [showModalLoading, setShowModalLoading] = useState(false);
   const [formData, setFormData] = useState([]);
+  const [placeData, setPlaceData] = useState([]);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertTitle, setAlertTitle] = useState("");
   const [alertType, setAlertType] = useState("info");
   const [resultData, setResultData] = useState([]);
 
+  const user = useSelector((state) => state.user);  
+
   const handleFormSelect = (form) => {
-    setFormId(form ? form.id : "");    
+    setFormId(form ? form.id : "");
   };
 
-  const fetchDataForm = () => {
+  const handlePlaceSelect = (place) => {
+    setPlaceId(place ? place.id : "");
+  };
+
+  const fetchDataPlace = () => {
+    setLoadingPlace(true); // Indicar inicio de carga
+
+    try {
+      const activePlaces = user.place_user
+        .filter((item) => item.place.active === 1) // Filtrar elementos activos
+        .map((item) => ({
+          id: item.place.place_id,
+          name: item.place.name,
+        }));
+
+      setPlaceData(activePlaces);
+
+      if (activePlaces.length > 0) {
+        const minId = Math.min(...activePlaces.map((place) => place.id));
+        setPlaceId(minId);
+      }
+    } catch (error) {
+      console.error("Error al filtrar los lugares activos:", error);
+    } finally {
+      setLoadingPlace(false); // Finalizar carga, sea exitoso o con error
+    }
+  };
+
+  const fetchDataForm = () => {    
     setLoadingForm(true);
 
     getFormAll()
@@ -35,6 +68,12 @@ export default function index() {
           name: form.name_form,
         }));
         setFormData(filteredData);
+
+        if (filteredData.length > 0) {
+          const minId = Math.min(...filteredData.map((form) => form.id));
+          setFormId(minId);
+        }
+
         setLoadingForm(false);
       })
       .catch((error) => {
@@ -44,24 +83,24 @@ export default function index() {
   };
 
   const fetchData = () => {
-    if (!formId || !fechaInicio || !fechaFin) {
+    if (!placeId || !formId || !fechaInicio || !fechaFin) {
       setAlertTitle("Atencion");
       setAlertMessage(
-        "Por favor selecciona un formulario y completa ambas fechas."
+        "Por favor completa ambas fechas."
       );
       setAlertType("warning");
       setAlertOpen(true);
       return;
-    }
+    }    
 
-    setShowModalLoading(true);    
+    setShowModalLoading(true);
 
     getByDates(formId, fechaInicio, fechaFin)
       .then((register) => {
         const result = homogenizeDataJson(register);
         setResultData(result);
       })
-      .catch((error) => {        
+      .catch((error) => {
         setAlertTitle("Error");
         setAlertMessage(error);
         setAlertType("error");
@@ -73,7 +112,8 @@ export default function index() {
   };
 
   useEffect(() => {
-    fetchDataForm();
+    fetchDataPlace();
+    fetchDataForm();    
   }, []);
 
   const homogenizeDataJson = (data) => {
@@ -117,7 +157,20 @@ export default function index() {
       <h1 className="text-3xl font-bold text-primary mb-4">
         Historial de Reportes
       </h1>
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
+        {/* formulario */}
+        <div>
+          <label className="text-sm dark:text-gray-50 mb-2 block font-semibold">
+            Organizacion
+          </label>
+          <SelectTitle
+            data={placeData}
+            onSelect={handlePlaceSelect}
+            messageDefault="Selecciona una organizacion"
+            icon={Info}
+            isLoading={loadingPlace}
+          />
+        </div>
         {/* formulario */}
         <div>
           <label className="text-sm dark:text-gray-50 mb-2 block font-semibold">
@@ -174,7 +227,7 @@ export default function index() {
         <h2 className="text-xl font-semibold text-gray-600 dark:text-white mb-2">
           Datos encontrados
         </h2>
-      </div>      
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-6">
         <DataGridReport data={resultData} />
       </div>

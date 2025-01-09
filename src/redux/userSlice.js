@@ -24,7 +24,7 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUser: (state, action) => {
+    setUser: (state, action) => {      
       const {
         user_id,
         username,
@@ -42,7 +42,8 @@ export const userSlice = createSlice({
         access_movil,
         role_id,
         theme_color,
-        place_user,
+        place_user
+        
       } = action.payload;
       state.user_id = user_id,
       state.username = username,
@@ -71,3 +72,4 @@ export const userSlice = createSlice({
 
 export const { setUser, updateField } = userSlice.actions;
 export default userSlice.reducer;
+
