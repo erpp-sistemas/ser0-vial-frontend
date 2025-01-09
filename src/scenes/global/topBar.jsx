@@ -4,9 +4,11 @@ import NotificationPopover from "../global/topBar/notificationPopover";
 import SettingsPopover from "../global/topBar/settingsPopover";
 import ProfilePopover from "../global/topBar/profilePopover";
 import ThemeColorPickerPopover from "../global/topBar/themeColorPickerPopover";
+import { useSelector } from 'react-redux'
 
 function Topbar({ isCollapsed }) {
   const [activePopover, setActivePopover] = useState(null);
+  const user = useSelector(state => state.user)
 
   const handlePopoverToggle = (popover) => {
     setActivePopover((prevPopover) =>
@@ -58,11 +60,11 @@ function Topbar({ isCollapsed }) {
           />
 
           {/* Otros iconos */}
-          <span className="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
+          <span className="rounded-full bg-gray-100 hover:bg-gray-200">
             <img
-              src="https://readymadeui.com/team-1.webp"
+              src={user.photo_url}
               alt="Profile"
-              className="w-8 h-8 rounded-full"
+              className="w-11 h-11 rounded-full"
             />
           </span>
         </div>

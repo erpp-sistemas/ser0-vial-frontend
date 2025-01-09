@@ -86,7 +86,7 @@ export default function index() {
     if (!placeId || !formId || !fechaInicio || !fechaFin) {
       setAlertTitle("Atencion");
       setAlertMessage(
-        "Por favor completa ambas fechas."
+        "Por favor selecciona una organizacion, un formulario y completa ambas fechas."
       );
       setAlertType("warning");
       setAlertOpen(true);
@@ -95,7 +95,7 @@ export default function index() {
 
     setShowModalLoading(true);
 
-    getByDates(formId, fechaInicio, fechaFin)
+    getByDates(placeId, formId, fechaInicio, fechaFin)
       .then((register) => {
         const result = homogenizeDataJson(register);
         setResultData(result);

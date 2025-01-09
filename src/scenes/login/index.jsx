@@ -26,7 +26,7 @@ function index({ setLogin }) {
     e.preventDefault();
 
     if (!username || !password) {
-      console.log("Debe ingresar un usuario o contraseña.")
+      console.log("Debe ingresar un usuario o contraseña.");
       setAlertTitle("Atencion");
       setAlertMessage("Debe ingresar un usuario o contraseña.");
       setAlertType("warning");
@@ -42,11 +42,11 @@ function index({ setLogin }) {
         if (!status_app_web)
           throw new Error("Usuario sin acceso a la plataforma");
         generateDataUser(user);
-       // dispatch(cleanMessages());
+        // dispatch(cleanMessages());
         sessionStorage.setItem("user_session", JSON.stringify(user));
         setShowModal(false);
         setLogin(false);
-        console.log(user)        
+        console.log(user);
         navigate("/");
       })
       .catch((error) => {
@@ -60,10 +60,10 @@ function index({ setLogin }) {
   };
 
   const verifyStatusAppWeb = (access_app_web) => {
-    return access_app_web === 1
+    return access_app_web === 1;
   };
 
-  const generateDataUser = (data_user) => {    
+  const generateDataUser = (data_user) => {
     const obj = {
       user_id: data_user.user_id,
       username: data_user.username,
@@ -79,9 +79,9 @@ function index({ setLogin }) {
       active: data_user.active,
       access_web: data_user.access_web,
       access_movil: data_user.access_movil,
-      role_id: data_user.role_id,   
+      role_id: data_user.role_id,
       theme_color: data_user.theme_color,
-      place_user: data_user.place_user
+      place_user: data_user.place_user,
       //token: data_user.token,
     };
     dispatch(setUser(obj));
@@ -167,7 +167,7 @@ function index({ setLogin }) {
                     className="h-4 w-4 shrink-0 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <label
-                    for="remember-me"
+                    htmlFor="remember-me"
                     className="ml-3 block text-sm text-gray-800"
                   >
                     Recordarme

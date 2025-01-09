@@ -4,15 +4,11 @@ import { Download, Error } from "@mui/icons-material";
 import * as ExcelJS from "exceljs";
 import Loading from "../../components/modals/loading";
 
-const DataGridReport = ({
-  data,
-  pageSizeOptions = [5, 10, 20],
-  defaultPageSize = 5,
-}) => {
+const DataGridReport = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [noResults, setNoResults] = useState(false);
-  const [showModalLoading, setShowModalLoading] = useState(false);  
+  const [showModalLoading, setShowModalLoading] = useState(false);
 
   if (!data || data.length === 0) {
     return <p>No hay datos para mostrar</p>;
@@ -135,15 +131,20 @@ const DataGridReport = ({
       </div>
 
       {/* DataGrid */}
-
-      <DataGrid
-        rows={filteredUsers.length > 0 || searchTerm ? filteredUsers : data}
-        columns={columns}
-        getRowId={(row) => row.custom_id}
-        pageSize={defaultPageSize}
-        rowsPerPageOptions={pageSizeOptions}
-        disableSelectionOnClick
-        className="text-sm
+      <div
+        style={{
+          height: "auto",
+          maxHeight: 800,
+          minHeight: 400,
+          width: "100%",
+        }}
+      >
+        <DataGrid
+          rows={filteredUsers.length > 0 || searchTerm ? filteredUsers : data}
+          columns={columns}
+          getRowId={(row) => row.custom_id}
+          disableSelectionOnClick
+          className="text-sm
           [&_.MuiDataGrid-columnHeader]:bg-gray-100 
           [&_.MuiDataGrid-columnHeader]:dark:bg-gray-900 
           [&_.MuiDataGrid-columnHeader]:text-black 
@@ -164,7 +165,8 @@ const DataGridReport = ({
           [&_.MuiSvgIcon-root]:dark:bg-gray-800 
           [&_.MuiSvgIcon-root]:text-gray-800 
           [&_.MuiSvgIcon-root]:dark:text-gray-200"
-      />
+        />
+      </div>
     </div>
   );
 };
