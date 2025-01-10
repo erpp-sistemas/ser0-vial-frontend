@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   ChevronRight,
   ChevronLeft, // Importando íconos para el toggle
@@ -134,8 +135,8 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
             <ul className="space-y-1">
               {items.map((menu) => (
                 <li key={menu.id_menu}>
-                  <a
-                    href={menu.route}
+                  <Link
+                    to={menu.route}
                     className={`text-black dark:text-white dark:hover:text-primary hover:text-primary text-[15px] flex items-center hover:bg-white rounded px-4 py-3 transition-all ${
                       isCollapsed ? "justify-center" : ""
                     }`}
@@ -146,13 +147,13 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
                     {!isCollapsed && (
                       <span className="ml-4">{menu.name}</span>
                     )}
-                  </a>
+                  </Link>
                   {menu.submenus.length > 0 && (
                     <ul className={`pl-6 mt-2 ${isCollapsed ? "hidden" : ""}`}>
                       {menu.submenus.map((submenu) => (
                         <li key={submenu.id_menu}>
-                          <a
-                            href={submenu.route}
+                          <Link
+                            to={submenu.route}
                             className="text-black hover:text-primary text-[14px] flex items-center hover:bg-white rounded px-4 py-3 transition-all"
                           >
                             <div className="w-[18px] h-[18px] flex-shrink-0 flex items-center justify-center">
@@ -161,7 +162,7 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
                             {!isCollapsed && (
                               <span className="ml-4">{submenu.name}</span>
                             )}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>

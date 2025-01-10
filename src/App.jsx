@@ -95,7 +95,7 @@ function App() {
             <div className="pt-[60px] pl-8 pr-8"> {/* Espaciado del contenido */}
               <Routes>
                 <Route path="/" key="home" element={<Home />} />
-                <Route path="/report" key="report" element={<Report />} />
+                <Route path="/reportes/infracciones" key="report" element={<Report />} />
               </Routes>
             </div>
           </div>
