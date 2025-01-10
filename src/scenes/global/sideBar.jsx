@@ -1,19 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import {
-  Dashboard,
-  Insights,
-  ReceiptLong,
-  ViewInAr,
-  Email,
-  CurrencyExchange,
   ChevronRight,
   ChevronLeft, // Importando íconos para el toggle
-  LocationOn,
-  BusinessCenter,
-  Report,
-  SearchOff,
-  MyLocation,
-  Map
+  LocationOn,  
 } from "@mui/icons-material";
 import LogoSer0VialImage from "../../../public/logo-ser0-vial.png";
 import LogoImageSer0VialImage from "../../../public/logo-image-ser0-vial.png";
@@ -21,6 +10,7 @@ import LogoSer0VialDarkImage from "../../../public/logo-ser0-vial-white.png";
 import LogoImageSer0VialDarkImage from "../../../public/logo-image-ser0-vial-white.png";
 import {getMenusByUserId} from '../../services/menu.service'
 import { useSelector } from 'react-redux'
+import * as MUIIcons from "@mui/icons-material"
 
 
 function Sidebar({ isCollapsed, setIsCollapsed }) {
@@ -29,16 +19,6 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   const user = useSelector((state) => state.user)
-
-  // Mapeo de iconos
-  const iconMap = {
-    LocationOnIcon: LocationOn,
-    BusinessCenterIcon: BusinessCenter,
-    ReportIcon: Report,
-    SearchOffIcon: SearchOff,
-    MyLocationIcon: MyLocation,
-    MapIcon: Map,
-  };
 
   useEffect(() => {
     const loadMenus = async () => {
@@ -99,8 +79,12 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
   const menuTree = buildMenuTree(menus);
 
   // Renderizar icono dinámico
+  // const renderIcon = (iconName) => {
+  //   const IconComponent = iconMap[iconName] || LocationOn; // Ícono predeterminado
+  //   return <IconComponent />;
+  // };
   const renderIcon = (iconName) => {
-    const IconComponent = iconMap[iconName] || LocationOn; // Ícono predeterminado
+    const IconComponent = MUIIcons[iconName] || LocationOn; // Ícono predeterminado
     return <IconComponent />;
   };
 

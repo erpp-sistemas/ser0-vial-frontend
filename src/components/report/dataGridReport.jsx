@@ -142,7 +142,8 @@ const DataGridReport = ({ data }) => {
         <DataGrid
           rows={filteredUsers.length > 0 || searchTerm ? filteredUsers : data}
           columns={columns}
-          getRowId={(row) => row.custom_id}
+          // getRowId={(row) => row.custom_id}
+          getRowId={(row, index) => `${row.someUniqueField || "row"}_${index}`}
           disableSelectionOnClick
           className="text-sm
           [&_.MuiDataGrid-columnHeader]:bg-gray-100 

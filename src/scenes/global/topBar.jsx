@@ -60,11 +60,11 @@ function Topbar({ isCollapsed }) {
           />
 
           {/* Otros iconos */}
-          <span className="rounded-full bg-gray-100 hover:bg-gray-200">
+          <span className="rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-300">
             <img
               src={user.photo_url}
               alt="Profile"
-              className="w-11 h-11 rounded-full"
+              className="w-11 h-11 rounded-full object-cover"
             />
           </span>
         </div>
