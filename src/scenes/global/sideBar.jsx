@@ -1,25 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
-import {
-  ChevronRight,
-  ChevronLeft, // Importando íconos para el toggle
-  LocationOn,  
-} from "@mui/icons-material";
+import { Link, useLocation } from "react-router-dom";
+import { ChevronRight, ChevronLeft, LocationOn } from "@mui/icons-material";
 import LogoSer0VialImage from "../../../public/logo-ser0-vial.png";
 import LogoImageSer0VialImage from "../../../public/logo-image-ser0-vial.png";
 import LogoSer0VialDarkImage from "../../../public/logo-ser0-vial-white.png";
 import LogoImageSer0VialDarkImage from "../../../public/logo-image-ser0-vial-white.png";
-import {getMenusByUserId} from '../../services/menu.service'
-import { useSelector } from 'react-redux'
-import * as MUIIcons from "@mui/icons-material"
-
+import { getMenusByUserId } from "../../services/menu.service";
+import { useSelector } from "react-redux";
+import * as MUIIcons from "@mui/icons-material";
+import NotificationPopover from "../global/topBar/notificationPopover";
+import Tooltip from "../global/sidebar/tooltip";
 
 function Sidebar({ isCollapsed, setIsCollapsed }) {
   const sidebarRef = useRef(null);
-  const [menus, setMenus] = useState([])
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [menus, setMenus] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);  
+  const location = useLocation(); // Hook para obtener la ruta actual
 
-  const user = useSelector((state) => state.user)
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     const loadMenus = async () => {
@@ -38,22 +36,18 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
       setIsDarkMode(document.documentElement.classList.contains("dark"));
     };
 
-    // Detecta si la clase `dark` cambia
     const observer = new MutationObserver(() => handleThemeChange());
     observer.observe(document.documentElement, { attributes: true });
 
-    // Establecer estado inicial
     handleThemeChange();
 
     return () => observer.disconnect();
   }, []);
 
-  // Función para alternar el estado del sidebar
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
-  // Construcción del árbol de menús
   const buildMenuTree = (menus) => {
     const menuTree = {};
     menus.forEach((menu) => {
@@ -79,28 +73,24 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
 
   const menuTree = buildMenuTree(menus);
 
-  // Renderizar icono dinámico
-  // const renderIcon = (iconName) => {
-  //   const IconComponent = iconMap[iconName] || LocationOn; // Ícono predeterminado
-  //   return <IconComponent />;
-  // };
   const renderIcon = (iconName) => {
-    const IconComponent = MUIIcons[iconName] || LocationOn; // Ícono predeterminado
+    const IconComponent = MUIIcons[iconName] || LocationOn;
     return <IconComponent />;
   };
 
+  const isActiveMenu = (route) => {
+    return location.pathname === route ? "bg-gray-300 dark:bg-gray-600 " : "";
+  };  
+
   return (
     <nav
-      className={`dark:bg-dark-background text-light-text dark:text-dark-text bg-white shadow-[0_2px_10px_rgba(107,114,128,1)] h-screen fixed top-0 left-0 py-6 px-4 font-[sans-serif] transition-all ${
-        isCollapsed ? "w-[80px]" : "w-[250px]"
-      }`}
+      className={`dark:bg-dark-background text-light-text dark:text-dark-text bg-white shadow-[0_2px_10px_rgba(107,114,128,1)] h-screen fixed top-0 left-0 py-6 px-4 font-[sans-serif] transition-all ${isCollapsed ? "w-[80px]" : "w-[250px]"}`}
       style={{ zIndex: 10000 }}
     >
-      {/* Encabezado */}
       <div className="relative flex justify-center items-center">
         <a href="javascript:void(0)">
           <img
-             src={
+            src={
               isCollapsed
                 ? isDarkMode
                   ? LogoImageSer0VialDarkImage
@@ -125,7 +115,6 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
         </div>
       </div>
 
-      {/* Menús dinámicos */}
       <div className="overflow-auto py-6 h-full mt-4">
         {Object.entries(menuTree).map(([section, items]) => (
           <div key={section} className="mb-4">
@@ -137,16 +126,20 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
                 <li key={menu.id_menu}>
                   <Link
                     to={menu.route}
-                    className={`text-black dark:text-white dark:hover:text-primary hover:text-primary text-[15px] flex items-center hover:bg-white rounded px-4 py-3 transition-all ${
-                      isCollapsed ? "justify-center" : ""
-                    }`}
+                    className={`text-black dark:text-white dark:hover:text-primary hover:text-primary text-[15px] flex items-center hover:bg-white rounded px-4 py-3 transition-all ${isCollapsed ? "justify-center" : ""} ${isActiveMenu(menu.route)}`}
                   >
-                    <div className="w-[18px] h-[18px] flex-shrink-0 flex items-center justify-center text-primary">
-                      {renderIcon(menu.icon)}
-                    </div>
-                    {!isCollapsed && (
-                      <span className="ml-4">{menu.name}</span>
+                    {isCollapsed ? (
+                      <Tooltip text={menu.name} position="right">
+                        <div className="w-[18px] h-[18px] flex-shrink-0 flex items-center justify-center text-primary">
+                          {renderIcon(menu.icon)}
+                        </div>
+                      </Tooltip>
+                    ) : (
+                      <div className="w-[18px] h-[18px] flex-shrink-0 flex items-center justify-center text-primary">
+                        {renderIcon(menu.icon)}
+                      </div>
                     )}
+                    {!isCollapsed && <span className="ml-4">{menu.name}</span>}
                   </Link>
                   {menu.submenus.length > 0 && (
                     <ul className={`pl-6 mt-2 ${isCollapsed ? "hidden" : ""}`}>
@@ -154,7 +147,7 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
                         <li key={submenu.id_menu}>
                           <Link
                             to={submenu.route}
-                            className="text-black hover:text-primary text-[14px] flex items-center hover:bg-white rounded px-4 py-3 transition-all"
+                            className={`text-black hover:text-primary text-[14px] flex items-center hover:bg-white rounded px-4 py-3 transition-all ${isActiveMenu(submenu.route)}`}
                           >
                             <div className="w-[18px] h-[18px] flex-shrink-0 flex items-center justify-center">
                               {renderIcon(submenu.icon)}
