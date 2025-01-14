@@ -24,7 +24,7 @@ export default function index() {
   const [alertType, setAlertType] = useState("info");
   const [resultData, setResultData] = useState([]);
 
-  const user = useSelector((state) => state.user);  
+  const user = useSelector((state) => state.user);
 
   const handleFormSelect = (form) => {
     setFormId(form ? form.id : "");
@@ -58,7 +58,7 @@ export default function index() {
     }
   };
 
-  const fetchDataForm = () => {    
+  const fetchDataForm = () => {
     setLoadingForm(true);
 
     getFormAll()
@@ -91,7 +91,7 @@ export default function index() {
       setAlertType("warning");
       setAlertOpen(true);
       return;
-    }    
+    }
 
     setShowModalLoading(true);
 
@@ -113,7 +113,7 @@ export default function index() {
 
   useEffect(() => {
     fetchDataPlace();
-    fetchDataForm();    
+    fetchDataForm();
   }, []);
 
   const homogenizeDataJson = (data) => {
@@ -138,8 +138,50 @@ export default function index() {
         homogenizedItem[field] = parsedData[field] || null; // Asigna null si el campo no existe
       });
 
-      return homogenizedItem;
+      // Formateamos la fecha del registro en UTC
+      const registrationDate = new Date(item.registration_date);
+      const formattedDate = `${registrationDate
+        .getUTCDate()
+        .toString()
+        .padStart(2, "0")}/${(registrationDate.getUTCMonth() + 1)
+        .toString()
+        .padStart(
+          2,
+          "0"
+        )}/${registrationDate.getUTCFullYear()}, ${registrationDate
+        .getUTCHours()
+        .toString()
+        .padStart(2, "0")}:${registrationDate
+        .getUTCMinutes()
+        .toString()
+        .padStart(2, "0")}:${registrationDate
+        .getUTCSeconds()
+        .toString()
+        .padStart(2, "0")} ${
+        registrationDate.getUTCHours() < 12 ? "a.m." : "p.m."
+      }`;
+
+      // Agregamos los campos adicionales del registro original
+      return {
+        custom_id: item.custom_id,
+        fecha: formattedDate,
+        registration_date_obj: registrationDate,
+        ...homogenizedItem,
+        // place_id: item.place_id,
+        // form_id: item.form_id,
+        // latitude: item.latitude,
+        // longitude: item.longitude,
+        // user_id: item.user_id,
+      };
     });
+
+    // Paso 3: Ordenamos los datos por fecha y hora en orden descendente
+    homogenizedData.sort(
+      (a, b) => b.registration_date_obj - a.registration_date_obj
+    );
+
+    // Eliminamos el campo temporal usado para ordenamiento
+    homogenizedData.forEach((item) => delete item.registration_date_obj);
 
     return homogenizedData;
   };
