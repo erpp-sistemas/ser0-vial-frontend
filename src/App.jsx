@@ -33,7 +33,7 @@ function App() {
       setLogin(true)
       generateDataUser(JSON.parse(user))
     } else {
-      setLogin(null)
+      setLogin(null)      
     }
   }, [])
 

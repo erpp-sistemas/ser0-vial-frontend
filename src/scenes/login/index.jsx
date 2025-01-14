@@ -50,9 +50,11 @@ function index({ setLogin }) {
         navigate("/");
       })
       .catch((error) => {
-        console.log(error);
+        const errorMessage =
+          error.response?.data?.message ||
+          "Error al iniciar sesión. Intenta nuevamente.";
         setAlertTitle("Error");
-        setAlertMessage(error);
+        setAlertMessage(errorMessage);
         setAlertType("error");
         setAlertOpen(true);
         setShowModal(false);
@@ -152,6 +154,7 @@ function index({ setLogin }) {
                     type="button"
                     onClick={() => setShowPassword(!showPassword)} // Alterna el estado
                     className="absolute right-4 text-gray-800 hover:text-gray-400"
+                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   >
                     {showPassword ? <VisibilityOff /> : <Visibility />}
                   </button>
@@ -189,8 +192,9 @@ function index({ setLogin }) {
                   type="button"
                   onClick={handleLogin}
                   className="w-full shadow-xl py-3 px-4 text-sm tracking-wide rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none font-bold"
+                  disabled={showModal} // Deshabilitado si hay una solicitud activa
                 >
-                  Acceso
+                  {showModal ? "Cargando..." : "Acceso"}
                 </button>
               </div>
             </form>

@@ -4,6 +4,7 @@ import NotificationPopover from "../global/topBar/notificationPopover";
 import SettingsPopover from "../global/topBar/settingsPopover";
 import ProfilePopover from "../global/topBar/profilePopover";
 import ThemeColorPickerPopover from "../global/topBar/themeColorPickerPopover";
+import AvatarPopover from "../global/topBar/avatarPopover";
 import { useSelector } from 'react-redux'
 
 function Topbar({ isCollapsed }) {
@@ -59,14 +60,20 @@ function Topbar({ isCollapsed }) {
             onToggle={() => handlePopoverToggle("theme")}
           />
 
+          {/* Popover de notificaciones */}
+          <AvatarPopover
+            isOpen={activePopover === "avatar"}
+            onToggle={() => handlePopoverToggle("avatar")}
+          />
+
           {/* Otros iconos */}
-          <span className="rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-300">
+          {/* <span className="rounded-full bg-gray-100 hover:bg-gray-200 border border-gray-300">
             <img
               src={user.photo_url}
               alt="Profile"
               className="w-11 h-11 rounded-full object-cover"
             />
-          </span>
+          </span> */}
         </div>
       </div>
     </header>
