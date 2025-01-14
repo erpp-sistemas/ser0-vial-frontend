@@ -5,6 +5,8 @@ import * as ExcelJS from "exceljs";
 import Loading from "../../components/modals/loading";
 
 const DataGridReport = ({ data }) => {
+
+  console.log('data', JSON.stringify(data))
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [noResults, setNoResults] = useState(false);
@@ -21,6 +23,8 @@ const DataGridReport = ({ data }) => {
     flex: 1,
     minWidth: Math.max(100, key.length * 12), // Evitar que las columnas sean demasiado pequeñas
   }));
+
+  console.log('columns', columns)
 
   const handleDownload = async () => {
     try {
@@ -143,7 +147,9 @@ const DataGridReport = ({ data }) => {
           rows={filteredUsers.length > 0 || searchTerm ? filteredUsers : data}
           columns={columns}
           // getRowId={(row) => row.custom_id}
-          getRowId={(row, index) => `${row.someUniqueField || "row"}_${index}`}
+          getRowId={(row, index) => 
+            `row_${Object.values(row).join('_')}_${index}`
+          }
           disableSelectionOnClick
           className="text-sm
           [&_.MuiDataGrid-columnHeader]:bg-gray-100 
