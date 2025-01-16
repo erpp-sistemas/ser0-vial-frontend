@@ -179,10 +179,10 @@ const DataGridReport = ({ data }) => {
           <div className="flex items-end">
             <button
               type="button"
-              className="w-full px-2 py-1 flex items-center justify-center rounded-lg text-gray-900 text-xs tracking-wider font-medium border-none outline-none bg-primary hover:bg-gray-600 active:primary"
+              className="w-full px-2 py-1 flex items-center justify-center rounded-lg text-gray-100 text-xs tracking-wider font-medium border-none outline-none bg-primary hover:bg-gray-600 active:primary"
               onClick={handleDownload}
             >
-              <span className="border-r border-gray-900 font-semibold pr-2">
+              <span className="border-r border-gray-100 font-semibold pr-2">
                 Descargar
               </span>
               <Download className="ml-2 inline text-xs" />

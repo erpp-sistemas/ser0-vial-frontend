@@ -44,7 +44,7 @@ function SelectTitle({
               <Spinner />
             </div>
           ) : selectedItem ? (
-            <div className="flex items-center">
+            <div className="flex items-center h-[22px]">
               <span>{selectedItem.name}</span>
             </div>
           ) : (

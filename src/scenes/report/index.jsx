@@ -119,25 +119,25 @@ export default function index() {
   const homogenizeDataJson = (data) => {
     // Paso 1: Parseamos data_json y extraemos los campos únicos
     const uniqueFields = new Set();
-  
+
     data.forEach((item) => {
       const parsedData = JSON.parse(item.data_json);
       Object.keys(parsedData).forEach((key) => uniqueFields.add(key));
     });
-  
+
     // Convertimos el Set a un arreglo
     const allFields = Array.from(uniqueFields);
-  
+
     // Paso 2: Homogenizamos los objetos
     const homogenizedData = data.map((item) => {
       const parsedData = JSON.parse(item.data_json);
-  
+
       // Creamos un objeto homogenizado basado en los campos únicos
       const homogenizedItem = {};
       allFields.forEach((field) => {
         homogenizedItem[field] = parsedData[field] || null; // Asigna null si el campo no existe
       });
-  
+
       // Formateamos la fecha del registro en UTC
       const registrationDate = new Date(item.registration_date);
       const formattedDate = `${registrationDate
@@ -160,7 +160,7 @@ export default function index() {
         .padStart(2, "0")} ${
         registrationDate.getUTCHours() < 12 ? "a.m." : "p.m."
       }`;
-  
+
       // Agregamos los campos adicionales del registro original
       return {
         custom_id: item.custom_id,
@@ -170,18 +170,17 @@ export default function index() {
         ...homogenizedItem,
       };
     });
-  
+
     // Paso 3: Ordenamos los datos por fecha y hora en orden descendente
     homogenizedData.sort(
       (a, b) => b.registration_date_obj - a.registration_date_obj
     );
-  
+
     // Eliminamos el campo temporal usado para ordenamiento
     homogenizedData.forEach((item) => delete item.registration_date_obj);
-  
+
     return homogenizedData;
   };
-  
 
   return (
     <div className="p-6 font-[sans-serif]">
@@ -248,7 +247,10 @@ export default function index() {
           />
         </div>
         {/*Button*/}
-        <div className="flex items-end">
+        <div>
+          <label className="text-sm dark:text-gray-50 mb-2 block font-semibold">
+            &nbsp;
+          </label>
           <button
             type="button"
             className="w-full px-4 py-3 flex items-center justify-center rounded-lg text-white text-sm tracking-wider font-medium border-none outline-none bg-primary hover:bg-gray-600 active:primary"
