@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { DisabledByDefault, Download, Error } from "@mui/icons-material";
+import { Block, Download, Error } from "@mui/icons-material";
 import * as ExcelJS from "exceljs";
 import Loading from "../../components/modals/loading";
-import ImageViewer from "../viewer/imageViewer"; // Asegúrate de que este componente está importado correctamente.
+import ImageViewer from "../viewer/imageViewer";
+import { useSelector } from "react-redux";
 
 const DataGridReport = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -12,79 +13,94 @@ const DataGridReport = ({ data }) => {
   const [showModalLoading, setShowModalLoading] = useState(false);
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   const [openImageViewer, setOpenImageViewer] = useState(false); // Estado para controlar la visibilidad del visor de imágenes
+  const [themeColor, setThemeColor] = useState("");
+  const theme_color = useSelector(
+    (state) => state.user.theme_color || "4F4F4F"
+  );
+
+  // Sincronizar el estado local `themeColor` con Redux
+  useEffect(() => {
+    setThemeColor(theme_color);
+  }, [theme_color]);
 
   if (!data || data.length === 0) {
     return <p>No hay datos para mostrar</p>;
   }
 
-  // Generar columnas dinámicamente
+  // Obtener los diferentes tipos de fotos y crear columnas dinámicamente
+  const photoTypes = new Set();
+  data.forEach((row) => {
+    if (row.photos) {
+      row.photos.forEach((photo) => {
+        if (photo.type) {
+          photoTypes.add(photo.type);
+        }
+      });
+    }
+  });
+
+  // Crear columnas para cada tipo de foto
   const columns = Object.keys(data[0])
     .filter((key) => key !== "photos")
     .map((key) => ({
       field: key,
       headerName: key.replace(/_/g, " ").toUpperCase(),
       flex: 1,
-      minWidth: Math.max(100, key.length * 12), // Evitar que las columnas sean demasiado pequeñas
+      minWidth: Math.max(100, key.length * 12),
     }));
 
-  // Agregar columna para las fotos
-  columns.push({
-    field: "photos",
-    headerName: "FOTOS",
-    flex: 2,
-    minWidth: 150,
-    renderCell: (params) => {
-      const photos = params.value; // Array de fotos
-      if (!photos || photos.length === 0) {
-        return (
-          <div className="font-[sans-serif] flex flex-col gap-4 items-center mx-auto justify-center h-full">
-            <div className="flex gap-4 justify-center items-center">
-              <div className="flex items-center text-red-600 text-sm bg-red-50 px-3 py-1.5 tracking-wide rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-4 mr-2 fill-current"
-                  viewBox="0 0 24 24"
-                >
-                  <g fillRule="evenodd" clipRule="evenodd">
-                    <path
-                      d="M8.651 2.5c-2.52 0-4.15 1.729-4.15 4.404v8.146c0 2.676 1.63 4.404 4.15 4.404h8.647c2.525 0 4.156-1.728 4.156-4.404V6.904c.001-1.363-.415-2.501-1.203-3.29-.728-.729-1.747-1.114-2.949-1.114zm8.647 18.454H8.65C5.27 20.954 3 18.581 3 15.05V6.904C3 3.373 5.27 1 8.65 1h8.651c1.608 0 2.995.537 4.01 1.554 1.061 1.062 1.643 2.607 1.641 4.351v8.145c0 3.531-2.273 5.904-5.656 5.904z"
-                    />
-                    <path
-                      d="M9.856 6.69a1.096 1.096 0 1 0 .003 2.192 1.096 1.096 0 0 0-.003-2.193zm.001 3.69a2.598 2.598 0 0 1-2.596-2.595A2.598 2.598 0 0 1 9.857 5.19a2.6 2.6 0 0 1 2.597 2.595 2.599 2.599 0 0 1-2.597 2.596zM4.75 19.111a.75.75 0 0 1-.653-1.117c.06-.108 1.494-2.645 3.073-3.945 1.252-1.03 2.6-.464 3.686-.007.64.27 1.243.523 1.823.523.532 0 1.2-.94 1.79-1.769.818-1.156 1.748-2.464 3.11-2.464 2.17 0 4.043 1.936 5.05 2.976l.116.12a.751.751 0 0 1-.016 1.061.748.748 0 0 1-1.06-.016l-.118-.122c-.852-.88-2.438-2.519-3.972-2.519-.588 0-1.278.973-1.889 1.832-.838 1.18-1.705 2.401-3.01 2.401-.884 0-1.693-.34-2.406-.64-1.134-.479-1.648-.632-2.15-.218-1.365 1.124-2.707 3.498-2.72 3.521a.749.749 0 0 1-.655.383z"
-                    />
-                  </g>
-                </svg>
-                <span className="ml-1 text-xs">Sin fotos</span> {/* Leyenda a la derecha */}
+  // Agregar columnas para cada tipo de foto
+  Array.from(photoTypes).forEach((type) => {
+    columns.push({
+      field: type,
+      headerName: type.toUpperCase(),
+      flex: 2,
+      minWidth: 150,
+      renderCell: (params) => {
+        const photos = params.row.photos.filter((photo) => photo.type === type);
+        if (!photos || photos.length === 0) {
+          return (
+            <div className="font-[sans-serif] flex flex-col gap-4 items-center mx-auto justify-center h-full">
+              <div className="flex justify-center items-center">
+                <Block className="text-gray-500" style={{ fontSize: "24px" }} />{" "}
+                {/* Icono de bloqueo */}
               </div>
             </div>
+          );
+        }
+        return (
+          <div
+            style={{
+              display: "flex",
+              gap: "8px",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+            }}
+          >
+            {photos.slice(0, 3).map((photo, index) => (
+              <img
+                key={index}
+                src={photo.url}
+                alt={`Foto ${index + 1}`}
+                className="w-12 h-12 object-cover rounded-lg border border-gray-300 cursor-pointer"
+                onClick={() => {
+                  setSelectedPhotos([photo]);
+                  setOpenImageViewer(true);
+                }}
+              />
+            ))}
+            {photos.length > 3 && (
+              <span style={{ color: "#888", fontSize: "12px" }}>
+                +{photos.length - 3} más
+              </span>
+            )}
           </div>
         );
-      }
-      return (
-        <div style={{ display: "flex", gap: "8px" }}>
-          {photos.slice(0, 3).map((photo, index) => (
-            <img
-              key={index}
-              src={photo.url} // Ajusta la propiedad según tu estructura de datos
-              alt={`Foto ${index + 1}`}
-              className="w-12 h-12 object-cover rounded-lg border border-gray-300 cursor-pointer"
-              onClick={() => {
-                setSelectedPhotos([photo]); // Establecer solo la foto seleccionada
-                setOpenImageViewer(true); // Abrir el modal de imagen
-              }}
-            />
-          ))}
-          {photos.length > 3 && (
-            <span style={{ color: "#888", fontSize: "12px" }}>
-              +{photos.length - 3} más
-            </span>
-          )}
-        </div>
-      );
-    },
+      },
+    });
   });
 
-  // Función para manejar la descarga
   const handleDownload = async () => {
     try {
       setShowModalLoading(true);
@@ -92,21 +108,130 @@ const DataGridReport = ({ data }) => {
       const workbook = new ExcelJS.Workbook();
       const worksheet = workbook.addWorksheet("Registros Encontrados");
 
-      const headers = Object.keys(data[0]);
-      worksheet.addRow(headers);
+      // Generar encabezados dinámicos
+      const baseHeaders = Object.keys(data[0])
+      .filter((header) => header !== "photos")
+      .map((header) => header.toUpperCase());;
+      let dynamicHeaders = [...baseHeaders];
+      const maxPhotosPerType = {};
 
-      if (filteredUsers.length > 0) {
-        filteredUsers.forEach((row) => {
-          const values = headers.map((header) => row[header]);
-          worksheet.addRow(values);
-        });
-      } else {
-        data.forEach((row) => {
-          const values = headers.map((header) => row[header]);
-          worksheet.addRow(values);
-        });
+      // Filtrar las filas a exportar
+      const rowsToExport = filteredUsers.length > 0 ? filteredUsers : data;
+
+      // Comprobar si hay fotos en alguna de las filas
+      let hasPhotos = false;
+
+      // Determinar cuántas fotos hay por tipo para cada fila
+      for (const row of rowsToExport) {
+        if (row.photos) {
+          hasPhotos = true;
+          for (const photoType of photoTypes) {
+            const count = row.photos.filter(
+              (photo) => photo.type === photoType
+            ).length;
+            maxPhotosPerType[photoType] = Math.max(
+              maxPhotosPerType[photoType] || 0,
+              count
+            );
+          }
+        }
       }
 
+      // Si hay fotos, agregamos los encabezados dinámicos para cada tipo de foto
+      if (hasPhotos) {
+        for (const photoType of photoTypes) {
+          const photoCount = maxPhotosPerType[photoType] || 0;
+          if (photoCount > 0) {
+            for (let i = 1; i <= photoCount; i++) {
+              dynamicHeaders.push(`FOTO DE ${photoType.toUpperCase()} ${i}`);
+            }
+          }
+        }
+
+        /// Aplicar estilo a los encabezados
+        const headerRow = worksheet.addRow(dynamicHeaders);
+        headerRow.eachCell((cell) => {
+          cell.fill = {
+            type: "pattern",
+            pattern: "solid",
+            fgColor: { argb: themeColor.replace("#", "") },
+          };
+          cell.font = {
+            color: { argb: "FFFFFF" }, // Letra blanca
+            bold: true,
+          };
+          cell.alignment = { horizontal: "center", vertical: "middle" }; // Centrado
+        });
+
+        // Procesar filas
+        for (const [rowIndex, row] of rowsToExport.entries()) {
+          const rowValues = dynamicHeaders.map((header) =>
+            baseHeaders.includes(header) ? row[header.toLowerCase()] : null
+          );
+          const excelRow = worksheet.addRow(rowValues);
+
+          // Ajustar altura de fila para imágenes
+          worksheet.getRow(rowIndex + 2).height = 75;
+
+          if (row.photos) {
+            const photoColumns = {};
+
+            for (const photo of row.photos) {
+              // Encontrar la siguiente columna disponible para este tipo de foto
+              const photoHeaderBase = dynamicHeaders.filter((header) =>
+                header.startsWith(`FOTO DE ${photo.type.toUpperCase()}`)
+              );
+              let colIndex = -1;
+
+              for (let i = 0; i < photoHeaderBase.length; i++) {
+                if (!photoColumns[photoHeaderBase[i]]) {
+                  photoColumns[photoHeaderBase[i]] = true;
+                  colIndex = dynamicHeaders.indexOf(photoHeaderBase[i]) + 1; // Índice de columna en Excel
+                  break;
+                }
+              }
+
+              if (colIndex !== -1) {
+                const base64 = await urlToBase64(photo.url);
+
+                const imageId = workbook.addImage({
+                  base64: base64,
+                  extension: "jpeg",
+                });
+
+                worksheet.addImage(imageId, {
+                  tl: { col: colIndex - 1, row: rowIndex + 1 },
+                  ext: { width: 75, height: 75 },
+                });
+
+                // Ajustar ancho de columna
+                worksheet.getColumn(colIndex).width = 12;
+              }
+            }
+          }
+        }
+      } else {
+        // Si no hay fotos, solo agregamos las filas sin fotos
+        worksheet.addRow(baseHeaders); // Solo encabezados base sin fotos
+        // Procesar filas sin fotos
+        for (const row of rowsToExport) {
+          const rowValues = baseHeaders.map((header) => row[header]);
+          worksheet.addRow(rowValues);
+        }
+      }
+
+      // Ajustar ancho de columnas basado en el contenido o el encabezado
+      worksheet.columns = dynamicHeaders.map((header) => {
+        const maxLength = Math.max(
+          header.length,
+          ...rowsToExport.map((row) =>
+            row[header.toLowerCase()] ? row[header.toLowerCase()].toString().length : 0
+          )
+        );
+        return { width: maxLength + 2 }; // Añadir un margen
+      });
+
+      // Guardar archivo Excel
       const buffer = await workbook.xlsx.writeBuffer();
       const blob = new Blob([buffer], {
         type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -114,17 +239,26 @@ const DataGridReport = ({ data }) => {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "reportes" + ".xlsx";
+      a.download = "reportes.xlsx";
       a.click();
       window.URL.revokeObjectURL(url);
-      setShowModalLoading(false);
     } catch (error) {
-      setShowModalLoading(false);
-      console.error("Error:", error);
-      return null;
+      console.error("Error al generar el archivo Excel:", error);
     } finally {
-      setShowModalLoading(false); // Asegúrate de que siempre se oculte el loading
+      setShowModalLoading(false);
     }
+  };
+
+  // Función para convertir una URL de imagen a base64
+  const urlToBase64 = async (url) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(",")[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
   };
 
   const handleChange = (event) => {
