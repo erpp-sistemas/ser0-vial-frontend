@@ -199,7 +199,7 @@ export default function index() {
         {/* formulario */}
         <div>
           <label className="text-sm dark:text-gray-50 mb-2 block font-semibold">
-            Organizacion
+            Organización
           </label>
           <SelectTitle
             data={placeData}

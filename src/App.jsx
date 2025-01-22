@@ -1,14 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import Login from "./scenes/login";
-import Topbar from "./scenes/global/topBar";
-import Sidebar from "./scenes/global/sideBar";
-import Home from "./scenes/home";
-import Report from "./scenes/report";
+
 import './App.css';
 import Cookies from 'js-cookie'
 import { setUser } from "./redux/userSlice";
+
+// PAGES
+import Login from "./scenes/login";
+import Home from "./scenes/home";
+import Report from "./scenes/report";
+import Maps from './scenes/maps';
+import Map from './scenes/map'
+
+// COMPONENTS
+import Topbar from "./scenes/global/topBar";
+import Sidebar from "./scenes/global/sideBar";
+import SidebarMap from './scenes/global/sideBarMap';  
+
 
 function App() {
   const [login, setLogin] = useState(null);
@@ -33,11 +42,11 @@ function App() {
       setLogin(true)
       generateDataUser(JSON.parse(user))
     } else {
-      setLogin(null)      
+      setLogin(null)
     }
   }, [])
 
-  const generateDataUser = (data_user) => {    
+  const generateDataUser = (data_user) => {
     const obj = {
       user_id: data_user.user_id,
       username: data_user.username,
@@ -53,9 +62,9 @@ function App() {
       active: data_user.active,
       access_web: data_user.access_web,
       access_movil: data_user.access_movil,
-      role_id: data_user.role_id,   
+      role_id: data_user.role_id,
       theme_color: data_user.theme_color,
-      place_user: data_user.place_user   
+      place_user: data_user.place_user
       //token: data_user.token,
     };
     dispatch(setUser(obj))
@@ -80,13 +89,16 @@ function App() {
         // Layout principal cuando el usuario ha iniciado sesión
         <div className="flex dark:bg-dark-background transition-all duration-300 ease-in-out bg-neutral-50">
           {/* Sidebar */}
-          <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+          {location.pathname !== `/map/3` ? (
+            <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+          ) : (
+            <SidebarMap isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+          )}
 
           {/* Contenido principal */}
           <div
-            className={`flex-1 transition-all duration-300 ease-in-out ${
-              isCollapsed ? "ml-[80px]" : "ml-[250px]"
-            }`}
+            className={`flex-1 transition-all duration-300 ease-in-out ${isCollapsed ? "ml-[80px]" : "ml-[250px]"
+              }`}
           >
             {/* Topbar */}
             <Topbar isCollapsed={isCollapsed} />
@@ -96,6 +108,8 @@ function App() {
               <Routes>
                 <Route path="/" key="home" element={<Home />} />
                 <Route path="/reportes/infracciones" key="report" element={<Report />} />
+                <Route path="/tools/maps" key="maps" element={<Maps />} />
+                <Route path="/map/:place_id" element={<Map />} />
               </Routes>
             </div>
           </div>
