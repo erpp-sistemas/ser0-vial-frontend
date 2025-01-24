@@ -16,7 +16,7 @@ import Map from './scenes/map'
 // COMPONENTS
 import Topbar from "./scenes/global/topBar";
 import Sidebar from "./scenes/global/sideBar";
-import SidebarMap from './scenes/global/sideBarMap';  
+import SideBarMap from './scenes/global/sidebarMap';
 
 
 function App() {
@@ -92,7 +92,7 @@ function App() {
           {location.pathname !== `/map/3` ? (
             <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
           ) : (
-            <SidebarMap isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
+            <SideBarMap isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
           )}
 
           {/* Contenido principal */}

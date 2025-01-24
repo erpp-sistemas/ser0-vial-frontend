@@ -10,7 +10,8 @@ import { useSelector } from 'react-redux'
 function Topbar({ isCollapsed }) {
   const [activePopover, setActivePopover] = useState(null);
   const user = useSelector(state => state.user)
-
+  const place_active = useSelector(state => state.map.place_active);
+  
   const handlePopoverToggle = (popover) => {
     setActivePopover((prevPopover) =>
       prevPopover === popover ? null : popover
@@ -20,11 +21,10 @@ function Topbar({ isCollapsed }) {
   return (
     <header
       className={`dark:bg-dark-background text-light-text dark:text-dark-text bg-neutral-50 transition-all duration-300 ease-out fixed left-0 overflow-auto min-h-[60px] font-sans z-[1201] 
-      ${
-        !isCollapsed
+      ${!isCollapsed
           ? "ml-[250px] w-[calc(100%-250px)]"
           : "ml-[80px] w-[calc(100%-80px)]"
-      }`}
+        }`}
     >
       <div className="flex flex-wrap items-center justify-between px-6 py-2 gap-4 w-full">
         {/* Menú colapsable */}
@@ -32,9 +32,13 @@ function Topbar({ isCollapsed }) {
           {/* Logo o botón del menú */}
         </div>
 
+        {location.pathname === `/map/${place_active.place_id}` && (
+          <p className="text-lg font-semibold">Mapa digital {place_active.name} </p>
+        )}
+
         {/* Iconos y perfil */}
         <div className="flex items-center space-x-4 relative">
-         <ThemeSwitch/>
+          <ThemeSwitch />
 
           {/* Popover de notificaciones */}
           <NotificationPopover
